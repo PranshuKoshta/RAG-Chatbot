@@ -3,6 +3,8 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# 181191867703.dkr.ecr.us-east-1.amazonaws.com/ragchatbot
+
 # C extensions
 *.so
 

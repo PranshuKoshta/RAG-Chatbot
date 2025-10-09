@@ -7,3 +7,4 @@ langchain-pinecone==0.2.8
 langchain-google-genai==2.1.12
 langchain-community==0.3.26
 -e .
+
