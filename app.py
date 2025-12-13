@@ -1,3 +1,6 @@
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
+
 from flask import Flask, render_template, jsonify, request
 from src.helper import load_api_embeddings
 from langchain_pinecone import PineconeVectorStore
@@ -7,19 +10,19 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 from src.prompt import *
-import os
-
-
-app = Flask(__name__)
 
 
 load_dotenv()
 
+app = Flask(__name__)
+
+
+
 PINECONE_API_KEY=os.environ.get('PINECONE_API_KEY')
 GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY')
 
-os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
-os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+# os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
+# os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 
 embeddings = load_api_embeddings()
@@ -35,8 +38,8 @@ docsearch = PineconeVectorStore.from_existing_index(
 
 
 retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k":3})
-
 chatModel = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system_prompt),
