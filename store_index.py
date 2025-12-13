@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-from src.helper import load_pdf_files, filter_to_minimal_docs, text_split, download_hugging_face_embeddings
+from src.helper import load_pdf_files, filter_to_minimal_docs, text_split, load_local_embeddings
 from pinecone import Pinecone
 from pinecone import ServerlessSpec 
 from langchain_pinecone import PineconeVectorStore
@@ -19,13 +19,13 @@ extracted_data=load_pdf_files(data='data/')
 filter_data = filter_to_minimal_docs(extracted_data)
 text_chunks=text_split(filter_data)
 
-embeddings = download_hugging_face_embeddings()
+embeddings = load_local_embeddings()
 
 pinecone_api_key = PINECONE_API_KEY
 pc = Pinecone(api_key=pinecone_api_key)
 
 
-index_name = "medical-chatbot"  # change if desired
+index_name = "rag-chatbot"  # change if desired
 
 if not pc.has_index(index_name):
     pc.create_index(
